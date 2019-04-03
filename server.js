@@ -6,7 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-// const Data = require("./data");
+const Data = require("./data");
 const cors = require('cors')
 var app = express();
 const session = require("express-session");
@@ -83,7 +83,7 @@ app.get("/*", (req, res, next) => {
         }
       };
     
-      var fileName = req.params.name;
+    //   var fileName = req.params.name;
       res.sendFile("index.html", options, function (err) {
         if (err) {
           next(err);
