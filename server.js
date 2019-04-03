@@ -6,14 +6,12 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const Data = require("./data");
+// const Data = require("./data");
 const cors = require('cors')
 var app = express();
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
 require("dotenv").config();
-
-// const dblink = 'mongodb+srv://Robin:Tj2cEFnJ1RxEltqh@cluster0-qcewh.gcp.mongodb.net/test?retryWrites=true'
 
 // Connect to mongo
 mongoose
@@ -30,7 +28,7 @@ mongoose
 let db = mongoose.connection;
 
 app.use(session({
-    secret: 'fuckthisshit',
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true,
     cookie: {
@@ -60,12 +58,6 @@ app.use(cors({
 }));
 app.use(express.static(path.join(__dirname, 'public/build')))
 
-// app.use("/", (req, res, next )=> {
-// debugger
-// next()
-
-// })
-
 // creating routes
 var usersRouter = require('./routes/users');
 var searchRouter = require('./routes/search');
@@ -82,7 +74,6 @@ app.use("/api/activities", activitiesRouter);
 app.use("/api/bookings", bookingsRouter);
 
 app.get("/*", (req, res, next) => {
-    debugger
     var options = {
         root: __dirname + '/public/build',
         dotfiles: 'deny',
@@ -92,10 +83,9 @@ app.get("/*", (req, res, next) => {
         }
       };
     
-    //   var fileName = req.params.name;
+      var fileName = req.params.name;
       res.sendFile("index.html", options, function (err) {
         if (err) {
-            debugger
           next(err);
         } else {
           console.log('sent:', err);
@@ -110,7 +100,6 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-    debugger
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
