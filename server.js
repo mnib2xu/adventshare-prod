@@ -28,7 +28,7 @@ mongoose
 let db = mongoose.connection;
 
 app.use(session({
-    secret: process.env.SECRET,
+    secret: 'fuckthisshit',
     resave: true,
     saveUninitialized: true,
     cookie: {
