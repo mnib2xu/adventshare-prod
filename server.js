@@ -6,8 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-// const Data = require("./data");
-const cors = require('cors');
+const cors = require('cors')
 var app = express();
 const session = require("express-session");
 const MongoStore = require("connect-mongo")(session);
@@ -15,7 +14,7 @@ require("dotenv").config();
 
 // Connect to mongo
 mongoose
-    .connect(process.env.MONGODB_URI, {
+    .connect(process.env.DB_HOST, {
         useNewUrlParser: true
     })
     .then(x => {
@@ -88,7 +87,7 @@ app.get("/*", (req, res, next) => {
         if (err) {
           next(err);
         } else {
-          console.log('sent:', err);
+          console.log('send:', err);
         }
       });
 })
@@ -100,6 +99,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
+    debugger
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};
